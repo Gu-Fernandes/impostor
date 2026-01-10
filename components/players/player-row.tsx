@@ -54,6 +54,7 @@ export function PlayerRow({
       {isLast ? (
         <Button
           type="button"
+          variant="default"
           onClick={onAdd}
           disabled={!canAdd}
           className="h-10 w-10 rounded-full p-0"

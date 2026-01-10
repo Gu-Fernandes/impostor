@@ -106,7 +106,7 @@ export function ImpostoresScreen() {
         </div>
       </div>
 
-      <div className="fixed bottom-0 left-0 right-0 bg-background border-t">
+      <div className="fixed bottom-0 left-0 right-0 bg-background">
         <div className="mx-auto w-full max-w-md px-4 py-4">
           <Button
             type="button"
