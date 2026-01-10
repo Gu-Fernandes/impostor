@@ -176,11 +176,11 @@ export function RoundScreen() {
 
       {phase !== "voting" ? (
         <div className="fixed bottom-0 left-0 right-0 bg-background">
-          <div className="mx-auto w-full rounded-full max-w-md px-4 py-4">
+          <div className="mx-auto w-full max-w-md px-4 py-4">
             {phase === "running" ? (
               <Button
                 type="button"
-                className="w-full"
+                className="w-full rounded-full"
                 onClick={handlePause}
                 disabled={finished}
               >
