@@ -6,7 +6,11 @@ import { RefreshCcw } from "lucide-react";
 
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { clearGameSetup, loadGameSetup } from "@/lib/game-storage";
+import {
+  clearGameSetup,
+  loadGameSetup,
+  savePlayers,
+} from "@/lib/game-storage";
 import { VoteGrid } from "./vote-grid";
 
 function formatSeconds(total: number) {
@@ -95,6 +99,9 @@ export function RoundScreen() {
   const hasVoted = Object.keys(revealedMap).length > 0;
 
   function handleRestart() {
+    if (players.length > 0) {
+      savePlayers(players);
+    }
     clearGameSetup();
     router.push("/");
   }
