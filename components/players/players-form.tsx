@@ -1,6 +1,7 @@
 "use client";
 
 import { zodResolver } from "@hookform/resolvers/zod";
+import { useMemo } from "react";
 import { useFieldArray, useForm, useWatch } from "react-hook-form";
 import { useRouter } from "next/navigation";
 
@@ -9,16 +10,22 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Form } from "@/components/ui/form";
 import { playersSchema, type PlayersFormValues } from "@/schemas/player.schema";
 import { PlayerRow } from "./player-row";
-import { savePlayers } from "@/lib/game-storage";
+import { loadPlayers, savePlayers } from "@/lib/game-storage";
 
 const MIN_PLAYERS = 3;
 
 export function PlayersForm() {
   const router = useRouter();
+  const savedPlayers = useMemo(() => loadPlayers(), []);
 
   const form = useForm<PlayersFormValues>({
     resolver: zodResolver(playersSchema),
-    defaultValues: { players: [{ name: "" }] },
+    defaultValues: {
+      players:
+        savedPlayers.length > 0
+          ? savedPlayers.map((name) => ({ name }))
+          : [{ name: "" }],
+    },
   });
 
   const { fields, append, remove } = useFieldArray({
