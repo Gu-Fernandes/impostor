@@ -179,7 +179,6 @@ export function RoundScreen() {
         )}
       </div>
 
-      {/* resto do seu footer/botões permanece igual */}
       {phase !== "voting" ? (
         <div className="fixed bottom-0 left-0 right-0 bg-background">
           <div className="mx-auto w-full max-w-md px-4 py-4">
