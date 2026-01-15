@@ -33,7 +33,7 @@ export function PlayerRow({
   onRemove,
 }: PlayerRowProps) {
   return (
-    <div className="flex gap-2">
+    <div className="flex">
       <FormField
         control={control}
         name={`players.${index}.name`}
@@ -68,7 +68,7 @@ export function PlayerRow({
           variant="outline"
           onClick={onRemove}
           disabled={!canRemove}
-          className="h-10 w-10 rounded-full p-0"
+          className="h-10 w-10 rounded-full p-0 border-0"
           aria-label="Remover jogador"
         >
           <X className="h-4 w-4" />

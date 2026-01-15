@@ -30,6 +30,9 @@ export function RevealScreen() {
   const isImpostor = setup.impostorIndices.includes(index);
   const isLast = index === players.length - 1;
 
+  const hintEnabled = Boolean(setup.impostorHintEnabled);
+  const hintText = setup.impostorHint ?? null;
+
   function handlePrimary() {
     if (!revealed) {
       setRevealed(true);
@@ -83,11 +86,19 @@ export function RevealScreen() {
                     Clique em “Ver palavra” para ver seu papel.
                   </p>
                 ) : (
-                  <div className="rounded-md border p-4 text-center">
+                  <div className="rounded-md border p-4 text-center space-y-2">
                     {isImpostor ? (
-                      <p className="text-lg text-red-500 font-bold">
-                        VOCÊ É O IMPOSTOR
-                      </p>
+                      <>
+                        <p className="text-lg text-red-400 font-bold">
+                          VOCÊ É O IMPOSTOR
+                        </p>
+
+                        {hintEnabled && hintText ? (
+                          <p className="text-sm text-muted-foreground">
+                            Dica: {hintText}
+                          </p>
+                        ) : null}
+                      </>
                     ) : (
                       <p className="text-lg font-semibold">{setup.word}</p>
                     )}

@@ -103,17 +103,22 @@ export function RoundScreen() {
 
   return (
     <>
-      <div className="mx-auto w-full max-w-md px-4">
+      <div
+        className={`mx-auto w-full max-w-md px-4 ${
+          phase !== "voting" ? "min-h-screen flex flex-col" : ""
+        }`}
+      >
         {phase !== "voting" ? (
           <>
-            <header className="mt-8">
+            <header className="pt-8">
               <h1 className="text-2xl font-semibold text-center">Rodada</h1>
               <p className="mt-2 text-sm text-muted-foreground text-center">
                 Tempo definido: {formatSeconds(initialSeconds)}
               </p>
             </header>
 
-            <div className="mt-6 pb-28">
+            {/* CENTRALIZA O CARD NO MEIO */}
+            <div className="flex-1 flex items-center pb-28">
               <Card
                 className={`w-full shadow-sm ${blinkBg ? "bg-red-600" : ""}`}
               >
@@ -153,11 +158,11 @@ export function RoundScreen() {
           </>
         ) : (
           <>
-            <header className="mt-8">
-              <h1 className="text-2xl font-semibold text-center">
+            <header className="mt-10">
+              <h1 className="text-3xl font-semibold text-center">
                 Quem é o impostor?
               </h1>
-              <p className="mt-2 text-sm text-muted-foreground text-center">
+              <p className="mt-2 text-md text-muted-foreground text-center">
                 Clique em um nome para revelar.
               </p>
             </header>
@@ -174,6 +179,7 @@ export function RoundScreen() {
         )}
       </div>
 
+      {/* resto do seu footer/botões permanece igual */}
       {phase !== "voting" ? (
         <div className="fixed bottom-0 left-0 right-0 bg-background">
           <div className="mx-auto w-full max-w-md px-4 py-4">
@@ -204,7 +210,7 @@ export function RoundScreen() {
           </div>
         </div>
       ) : hasVoted ? (
-        <div className="fixed bottom-0 left-0 right-0 bg-background border-t">
+        <div className="fixed bottom-0 left-0 right-0 bg-background">
           <div className="mx-auto w-full max-w-md px-4 py-4">
             <Button type="button" className="w-full" onClick={handleRestart}>
               <RefreshCcw className="mr-2 h-4 w-4" />

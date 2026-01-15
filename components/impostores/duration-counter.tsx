@@ -34,7 +34,7 @@ export function DurationCounter({
         variant="outline"
         onClick={() => onChange(seconds - stepSeconds)}
         disabled={!canDecrement}
-        className="h-10 w-10 rounded-full p-0"
+        className="h-10 w-10 rounded-full p-0 border-0"
         aria-label="Diminuir duração"
       >
         <Minus className="h-4 w-4" />

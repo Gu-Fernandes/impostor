@@ -6,6 +6,7 @@ import { useRouter } from "next/navigation";
 import { Button } from "@/components/ui/button";
 import {
   loadImpostorCount,
+  loadImpostorHintEnabled,
   loadPlayers,
   loadRoundDurationSec,
   saveGameSetup,
@@ -14,6 +15,7 @@ import {
 import { RoundDurationCard } from "./round-duration-card";
 import { ImpostorsCard } from "./impostors-card";
 import { createGameSetup } from "@/lib/game-setup";
+import { ImpostorHintCard } from "./impostor-hint-card";
 
 const MIN_PLAYERS = 3;
 
@@ -59,6 +61,10 @@ export function ImpostoresScreen() {
   // ✅ valor derivado/clampado (sem useEffect)
   const safeImpostors = clamp(impostors, 1, maxImpostors);
 
+  const [impostorHintEnabled, setImpostorHintEnabled] = useState(() => {
+    return loadImpostorHintEnabled() ?? false;
+  });
+
   function handleChangeImpostors(value: number) {
     setImpostors(clamp(value, 1, maxImpostors));
   }
@@ -72,6 +78,7 @@ export function ImpostoresScreen() {
       players,
       impostorCount: safeImpostors,
       durationSec: clamp(roundDurationSec, MIN_DURATION_SEC, MAX_DURATION_SEC),
+      impostorHintEnabled, // ✅ ESSENCIAL
     });
 
     saveGameSetup(setup);
@@ -102,6 +109,11 @@ export function ImpostoresScreen() {
             maxSeconds={MAX_DURATION_SEC}
             stepSeconds={DURATION_STEP_SEC}
             onChange={handleChangeDuration}
+          />
+
+          <ImpostorHintCard
+            enabled={impostorHintEnabled}
+            onChange={setImpostorHintEnabled}
           />
         </div>
       </div>

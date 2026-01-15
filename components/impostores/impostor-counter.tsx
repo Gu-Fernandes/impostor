@@ -26,7 +26,7 @@ export function ImpostorCounter({
         variant="outline"
         onClick={() => onChange(value - 1)}
         disabled={!canDecrement}
-        className="h-10 w-10 rounded-full p-0"
+        className="h-10 w-10 rounded-full p-0 border-0"
         aria-label="Diminuir impostores"
       >
         <Minus className="h-4 w-4" />

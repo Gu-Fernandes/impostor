@@ -1,7 +1,7 @@
 "use client";
 
 import { zodResolver } from "@hookform/resolvers/zod";
-import { useMemo } from "react";
+import { useEffect } from "react";
 import { useFieldArray, useForm, useWatch } from "react-hook-form";
 import { useRouter } from "next/navigation";
 
@@ -16,22 +16,30 @@ const MIN_PLAYERS = 3;
 
 export function PlayersForm() {
   const router = useRouter();
-  const savedPlayers = useMemo(() => loadPlayers(), []);
 
   const form = useForm<PlayersFormValues>({
     resolver: zodResolver(playersSchema),
     defaultValues: {
-      players:
-        savedPlayers.length > 0
-          ? savedPlayers.map((name) => ({ name }))
-          : [{ name: "" }],
+      players: [{ name: "" }],
     },
   });
 
-  const { fields, append, remove } = useFieldArray({
+  const { fields, append, remove, replace } = useFieldArray({
     control: form.control,
     name: "players",
   });
+
+  // ✅ carrega do storage APÓS mount (sem setState)
+  useEffect(() => {
+    const savedPlayers = loadPlayers();
+    if (savedPlayers.length === 0) return;
+
+    const mapped = savedPlayers.map((name) => ({ name }));
+
+    // mantém RHF + FieldArray sincronizados
+    form.reset({ players: mapped });
+    replace(mapped);
+  }, [form, replace]);
 
   const players = useWatch({ control: form.control, name: "players" }) ?? [];
 
@@ -48,18 +56,16 @@ export function PlayersForm() {
 
   function onSubmit(values: PlayersFormValues) {
     const names = values.players.map((p) => p.name.trim()).filter(Boolean);
-
     savePlayers(names);
     router.push("/impostores");
   }
 
   return (
     <>
-      {/* ✅ wrapper com padding horizontal */}
       <div className="mx-auto w-full max-w-md px-2">
         <Card className="mt-5 w-full">
           <CardHeader>
-            <CardTitle className="text-xl text-center">
+            <CardTitle className="text-2xl text-center">
               Quem vai jogar?
             </CardTitle>
           </CardHeader>
@@ -93,7 +99,6 @@ export function PlayersForm() {
         </Card>
       </div>
 
-      {/* ✅ footer também alinhado com o mesmo max-w e padding */}
       <div className="fixed bottom-0 left-0 right-0 bg-background">
         <div className="mx-auto w-full max-w-md px-4 py-4">
           {canContinue ? (
